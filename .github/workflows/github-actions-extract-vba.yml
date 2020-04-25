@@ -38,4 +38,6 @@ jobs:
         git status
         git add ./vba-src
         git status
+        git commit -m "Extract VBA source files."
+        git push origin ${{ github.head_ref }}
 
