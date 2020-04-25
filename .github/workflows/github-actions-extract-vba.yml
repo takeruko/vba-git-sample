@@ -24,7 +24,7 @@ jobs:
       run: |
         git clone https://github.com/takeruko/extract_vba_source.git
     - name: Extract VBA source files
-      run:
+      run: |
         export PIPENV_PIPFILE=$(pwd)/extract_vba_source/Pipfile
         pipenv install
         pipenv run python ./extract_vba_source/extract_vba_source.py \
@@ -34,7 +34,7 @@ jobs:
                           --recursive \
                           .
     - name: Commit VBA source files
-      run:
+      run: |
         git status
         git add ./vba-src
         git status
