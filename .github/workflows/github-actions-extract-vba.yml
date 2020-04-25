@@ -35,6 +35,8 @@ jobs:
                           .
     - name: Commit VBA source files
       run: |
+        git config --global user.email "actions@github.com"
+        git config --global user.name "Auto Commit"
         git status
         git add ./vba-src
         git status
