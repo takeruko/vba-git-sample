@@ -1,0 +1,41 @@
+# This workflow will install Python dependencies, run tests and lint with a single version of Python
+# For more information see: https://help.github.com/actions/language-and-framework-guides/using-python-with-github-actions
+
+name: Extract VBA source files
+
+on: [ push ]
+
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v2
+    - name: Set up Python 3.8
+      uses: actions/setup-python@v1
+      with:
+        python-version: 3.8
+    - name: Install pipenv
+      run: |
+        python -m pip install --upgrade pip
+        pip install pipenv
+    - name: Install extract_vba_source.py
+      run: |
+        git clone https://github.com/takeruko/extract_vba_source.git
+    - name: Extract VBA source files
+      run:
+        export PIPENV_PIPFILE=$(pwd)/extract_vba_source/Pipfile
+        pipenv install
+        pipenv run python ./extract_vba_source/extract_vba_source.py \
+                          --dest ./vba-src \
+                          --src-encoding='shift_jis' \
+                          --out-encoding='utf8' \
+                          --recursive \
+                          .
+    - name: Commit VBA source files
+      run:
+        git status
+        git add ./vba-src
+        git status
+
